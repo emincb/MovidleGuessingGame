@@ -3,37 +3,20 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="909.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
-   <bottom>
-      <TextField id="guessTextField" prefHeight="25.0" prefWidth="828.0" BorderPane.alignment="CENTER" />
-   </bottom>
-   <right>
-      <Button id="restartButton" mnemonicParsing="false" text="resetbutton" BorderPane.alignment="CENTER" />
-   </right>
-   <left>
-      <Button id="guessButton" mnemonicParsing="false" text="guess" BorderPane.alignment="CENTER" />
-   </left>
-   <top>
-      <GridPane prefHeight="98.0" prefWidth="817.0" BorderPane.alignment="CENTER">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Label text="Label" />
-            <Label text="Label" GridPane.columnIndex="1" />
-            <Label text="Label" GridPane.columnIndex="2" />
-            <Label text="Label" GridPane.columnIndex="3" />
-            <Label text="Label" GridPane.columnIndex="4" />
-            <Label text="Label" GridPane.columnIndex="5" />
-         </children>
-      </GridPane>
-   </top>
-</BorderPane>
+<VBox prefHeight="204.0" prefWidth="790.0" stylesheets="styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.movidle.MovidleController">
+    <TextField fx:id="guessTextField" prefHeight="9.0" prefWidth="2653.0" promptText="Enter your guess" />
+    <TableView fx:id="attributesTableView" prefHeight="164.0" prefWidth="1406.0">
+        <columns>
+            <TableColumn text="Attribute" />
+            <TableColumn text="Guess 1" fx:id="guess1Column" />
+            <TableColumn text="Guess 2" fx:id="guess2Column" />
+            <TableColumn text="Guess 3" fx:id="guess3Column" />
+            <TableColumn text="Guess 4" fx:id="guess4Column" />
+            <TableColumn text="Guess 5" fx:id="guess5Column" />
+            <TableColumn text="Correct Guess" fx:id="correctGuessColumn" />
+        </columns>
+    </TableView>
+    <Button fx:id="guessButton" onAction="#guessButtonClicked" text="Guess" />
+    <Button fx:id="restartButton" onAction="#restartButtonClicked" text="Restart" />
+    <Label fx:id="messageLabel" />
+</VBox>
