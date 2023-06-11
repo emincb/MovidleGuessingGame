@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="567.0" prefWidth="909.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <bottom>
+      <TextField id="guessTextField" prefHeight="25.0" prefWidth="828.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <right>
+      <Button id="restartButton" mnemonicParsing="false" text="resetbutton" BorderPane.alignment="CENTER" />
+   </right>
+   <left>
+      <Button id="guessButton" mnemonicParsing="false" text="guess" BorderPane.alignment="CENTER" />
+   </left>
+   <top>
+      <GridPane prefHeight="98.0" prefWidth="817.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Label" />
+            <Label text="Label" GridPane.columnIndex="1" />
+            <Label text="Label" GridPane.columnIndex="2" />
+            <Label text="Label" GridPane.columnIndex="3" />
+            <Label text="Label" GridPane.columnIndex="4" />
+            <Label text="Label" GridPane.columnIndex="5" />
+         </children>
+      </GridPane>
+   </top>
+</BorderPane>
