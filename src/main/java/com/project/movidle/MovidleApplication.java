@@ -21,7 +21,7 @@ public class MovidleApplication extends Application {
             VBox root = loader.load();
 
             // Get the controller instance
-            MovidleController movidleController = loader.getController();
+            loader.getController();
 
             // Set the stage and scene
             Scene scene = new Scene(root);

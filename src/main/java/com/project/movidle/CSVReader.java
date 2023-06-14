@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CSVReader {
     public static List<Movie> readMovies() {
-        String csvFile = "C:\\Users\\eminb\\IdeaProjects\\Movidle\\src\\main\\resources\\com\\project\\movidle\\imdb_top_250.csv";
+        String csvFile = "src/main/resources/com/project/movidle/imdb_top_250.csv";
         String line;
         String csvSplitBy = ";";
 

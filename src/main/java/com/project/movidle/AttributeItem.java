@@ -32,10 +32,6 @@ public class AttributeItem {
         return attribute;
     }
 
-    public SimpleStringProperty valueProperty() {
-        return value;
-    }
-
     public SimpleStringProperty guess1Property() {
         return guess1;
     }
@@ -50,10 +46,6 @@ public class AttributeItem {
 
     public SimpleStringProperty guess4Property() {
         return guess4;
-    }
-
-    public String getGuess5() {
-        return guess5.get();
     }
 
     public SimpleStringProperty guess5Property() {
@@ -92,13 +84,5 @@ public class AttributeItem {
         this.correctGuess.set(correctGuess);
     }
 
-    public void clearGuesses() {
-        guess1.set("");
-        guess2.set("");
-        guess3.set("");
-        guess4.set("");
-        guess5.set("");
-        correctGuess.set("");
-    }
 
 }

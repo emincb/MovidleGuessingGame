@@ -21,48 +21,24 @@ public class Movie {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getYear() {
         return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
     }
 
     public String getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
     public String getOrigin() {
         return origin;
-    }
-
-    public void setOrigin(String origin) {
-        this.origin = origin;
     }
 
     public String getDirector() {
         return director;
     }
 
-    public void setDirector(String director) {
-        this.director = director;
-    }
-
     public String getStar() {
         return star;
-    }
-
-    public void setStar(String star) {
-        this.star = star;
     }
 
     @Override
@@ -95,8 +71,4 @@ public class Movie {
         }
     }
 
-    public boolean isAttributeValueMatch(String attribute, String value) {
-        String attributeValue = getAttributeValue(attribute);
-        return attributeValue.equalsIgnoreCase(value);
-    }
 }

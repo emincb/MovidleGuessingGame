@@ -53,7 +53,6 @@ public class MovidleController {
 
         if (currentMovie == null) {
             startNewGame();
-            showMovieItems();
         }
 
         if (guess.equalsIgnoreCase(currentMovie.getTitle())) {
@@ -107,7 +106,6 @@ public class MovidleController {
         correctGuessColumn.setCellValueFactory(cellData -> cellData.getValue().correctGuessProperty());
 
 
-
         attributesTableView.getColumns().addAll(attributeColumn, guess1Column, guess2Column, guess3Column, guess4Column, guess5Column, correctGuessColumn);
 
         AttributeItem titleItem = new AttributeItem("Title");
@@ -125,7 +123,6 @@ public class MovidleController {
         messageLabel.setText("You Win!");
         messageLabel.setStyle("-fx-text-fill: green;");
         guessButton.setDisable(true);
-        showMovieItems();
     }
 
     private void showLoseMessage() {
@@ -148,26 +145,23 @@ public class MovidleController {
             }
         }
 
-        if (guessedMovie != null) {
-            // Update the attribute values and correctness
-            for (AttributeItem item : attributeItems) {
-                String attributeName = item.getAttribute();
-                String attributeValue = guessedMovie.getAttributeValue(attributeName);
-                item.setValue(attributeValue);
-                item.setGuess(attributeValue, remainingGuesses);
+        // Update the attribute values and correctness for the guessed movie
+        for (AttributeItem item : attributeItems) {
+            String attributeName = item.getAttribute();
+            String attributeValue = "";
+
+
+            // Check if the attribute value of the guessed movie matches the attribute value of the correct movie
+            if (guessedMovie != null) {
+                attributeValue = guessedMovie.getAttributeValue(attributeName);
+                attributeValue.equalsIgnoreCase(currentMovie.getAttributeValue(attributeName));
             }
-        } else {
-            // Display the attribute values of currentMovie in the "Correct Guess" column
-            for (AttributeItem item : attributeItems) {
-                String attributeName = item.getAttribute();
-                String attributeValue = currentMovie.getAttributeValue(attributeName);
-                item.setValue(attributeValue);
-                item.setCorrectGuess(attributeValue.equals(item.getGuess5()) ? attributeValue : "");
-            }
+
+            item.setValue(attributeValue);
+            item.setGuess(attributeValue, remainingGuesses);
+            item.setCorrectGuess(currentMovie.getAttributeValue(attributeName));
+
         }
-
-
-
 
         // Clear the guess text field
         guessTextField.clear();
@@ -175,9 +169,6 @@ public class MovidleController {
         // Refresh the table view to update the cell colors
         attributesTableView.refresh();
     }
-
-
-
 
 
     private void showIncorrectGuess() {
@@ -199,116 +190,67 @@ public class MovidleController {
             }
         }
 
-        // Update the attribute values and correctness for the guessed movie
-        boolean hasCorrectGuess = false;
+        // Update the attribute values and highlight the guessed movie cell
         for (AttributeItem item : attributeItems) {
             String attributeName = item.getAttribute();
             String attributeValue = "";
-            boolean correct = false;
 
             // Check if the attribute value of the guessed movie matches the attribute value of the correct movie
             if (guessedMovie != null) {
                 if (attributeName.equalsIgnoreCase("Title")) {
                     attributeValue = guessedMovie.getTitle();
-                    correct = guess.equalsIgnoreCase(currentMovie.getTitle());
                 } else if (attributeName.equalsIgnoreCase("Year")) {
                     attributeValue = guessedMovie.getYear();
-                    correct = guess.equalsIgnoreCase(currentMovie.getYear());
                 } else if (attributeName.equalsIgnoreCase("Genre")) {
                     attributeValue = guessedMovie.getGenre();
-                    correct = guess.equalsIgnoreCase(currentMovie.getGenre());
                 } else if (attributeName.equalsIgnoreCase("Origin")) {
                     attributeValue = guessedMovie.getOrigin();
-                    correct = guess.equalsIgnoreCase(currentMovie.getOrigin());
                 } else if (attributeName.equalsIgnoreCase("Director")) {
                     attributeValue = guessedMovie.getDirector();
-                    correct = guess.equalsIgnoreCase(currentMovie.getDirector());
                 } else if (attributeName.equalsIgnoreCase("Star")) {
                     attributeValue = guessedMovie.getStar();
-                    correct = guess.equalsIgnoreCase(currentMovie.getStar());
                 }
             }
 
             item.setValue(attributeValue);
             item.setGuess(attributeValue, remainingGuesses);
-            item.setCorrectGuess(correct ? "Correct" : "");
 
-            if (correct) {
-                hasCorrectGuess = true;
-            }
-        }
+            // Apply cell factory to highlight the cell of the guessed movie in green
+            TableColumn<AttributeItem, String> attributeColumn = (TableColumn<AttributeItem, String>) attributesTableView.getColumns().get(0);
+            String finalAttributeValue = attributeValue;
+            attributeColumn.setCellFactory(column -> new TableCell<AttributeItem, String>() {
+                @Override
+                protected void updateItem(String value, boolean empty) {
+                    super.updateItem(value, empty);
+                    setText(empty ? "" : value);
 
-        // If all guesses are used and there was no correct guess, display the correct attribute values
-        if (remainingGuesses == 0 && !hasCorrectGuess) {
-            for (AttributeItem item : attributeItems) {
-                String attributeName = item.getAttribute();
-                String attributeValue = currentMovie.getAttributeValue(attributeName);
-                item.setValue(attributeValue);
-                item.setCorrectGuess("");
-            }
-        }
+                    if (!empty && finalAttributeValue.equalsIgnoreCase(getItem())) {
+                        setStyle("-fx-text-fill: green;");
+                    } else {
+                        setStyle("");
+                    }
+                }
+            });
 
-        // Update the attribute values and correctness for the 5th guessed movie
-        if (remainingGuesses == 1) {
-            AttributeItem fifthGuessItem = attributeItems.get(5);
-            String fifthGuessAttribute = fifthGuessItem.getAttribute();
-            String fifthGuessValue = currentMovie.getAttributeValue(fifthGuessAttribute);
-            fifthGuessItem.setValue(fifthGuessValue);
-            fifthGuessItem.setGuess(fifthGuessValue, remainingGuesses);
-            fifthGuessItem.setCorrectGuess("");
-        }
-
-        // Update the attribute values and correctness for the correct guess movie
-        if (guessedMovie != null && guess.equalsIgnoreCase(currentMovie.getTitle())) {
-            for (AttributeItem item : attributeItems) {
-                String attributeName = item.getAttribute();
-                String attributeValue = currentMovie.getAttributeValue(attributeName);
-                item.setValue(attributeValue);
-                item.setCorrectGuess("Correct");
+            int guessIndex = 6 - remainingGuesses;
+            if (guessIndex >= 1 && guessIndex <= 5) {
+                TableColumn<AttributeItem, String> guessColumn = (TableColumn<AttributeItem, String>) attributesTableView.getColumns().get(guessIndex);
+                guessColumn.setCellFactory(column -> new TableCell<AttributeItem, String>() {
+                    @Override
+                    protected void updateItem(String value, boolean empty) {
+                        super.updateItem(value, empty);
+                        setText(empty ? "" : value);
+                    }
+                });
             }
         }
 
         // Clear the guess text field
         guessTextField.clear();
 
-        // Refresh the table view to update the cell colors
+        // Refresh the text fields to update their appearance
         attributesTableView.refresh();
     }
 
-
-    private void showMovieItems() {
-        if (currentMovie == null) {
-            return;
-        }
-
-        List<AttributeItem> attributeItems = attributesTableView.getItems();
-
-        attributeItems.get(0).setValue(currentMovie.getTitle());
-        attributeItems.get(1).setValue(currentMovie.getYear());
-        attributeItems.get(2).setValue(currentMovie.getGenre());
-        attributeItems.get(3).setValue(currentMovie.getOrigin());
-        attributeItems.get(4).setValue(currentMovie.getDirector());
-        attributeItems.get(5).setValue(currentMovie.getStar());
-
-        // Clear the guess columns and set the guesses from the CSV file
-        for (AttributeItem item : attributeItems) {
-            item.clearGuesses();
-            String attribute = item.getAttribute();
-
-            // Find the movie object that matches the current movie's title
-            Movie matchingMovie = null;
-            for (Movie movie : movies) {
-                if (currentMovie.getTitle().equalsIgnoreCase(movie.getTitle())) {
-                    matchingMovie = movie;
-                    break;
-                }
-            }
-
-            // Set the guess values from the matching movie
-            if (matchingMovie != null) {
-                item.setGuess(matchingMovie.getAttributeValue(attribute), remainingGuesses);
-            }
-        }
-    }
 
 }
