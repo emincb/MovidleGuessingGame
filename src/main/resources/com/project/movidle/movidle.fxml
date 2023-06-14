@@ -1,22 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="204.0" prefWidth="790.0" stylesheets="styles.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.movidle.MovidleController">
-    <TextField fx:id="guessTextField" prefHeight="9.0" prefWidth="2653.0" promptText="Enter your guess" />
-    <TableView fx:id="attributesTableView" prefHeight="164.0" prefWidth="1406.0">
+<VBox prefHeight="276.0" prefWidth="790.0" stylesheets="styles.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.movidle.MovidleController">
+   <VBox prefHeight="200.0" prefWidth="100.0">
+      <children>
+         <HBox prefHeight="49.0" prefWidth="790.0">
+            <children>
+                <TextField fx:id="guessTextField" prefHeight="26.0" prefWidth="566.0" promptText="Enter your guess">
+                  <HBox.margin>
+                     <Insets left="10.0" right="10.0" top="10.0" />
+                  </HBox.margin>
+               </TextField>
+                <Button fx:id="guessButton" onAction="#guessButtonClicked" prefHeight="26.0" prefWidth="93.0" text="Guess">
+                  <HBox.margin>
+                     <Insets right="10.0" top="10.0" />
+                  </HBox.margin>
+               </Button>
+                <Button fx:id="restartButton" onAction="#restartButtonClicked" prefHeight="26.0" prefWidth="82.0" text="Restart">
+                  <HBox.margin>
+                     <Insets right="10.0" top="10.0" />
+                  </HBox.margin>
+               </Button>
+            </children>
+         </HBox>
+          <Label fx:id="messageLabel">
+            <VBox.margin>
+               <Insets bottom="5.0" left="10.0" top="5.0" />
+            </VBox.margin>
+         </Label>
+      </children>
+   </VBox>
+    <TableView fx:id="attributesTableView" prefHeight="418.0" prefWidth="770.0">
         <columns>
             <TableColumn text="Attribute" />
-            <TableColumn text="Guess 1" fx:id="guess1Column" />
-            <TableColumn text="Guess 2" fx:id="guess2Column" />
-            <TableColumn text="Guess 3" fx:id="guess3Column" />
-            <TableColumn text="Guess 4" fx:id="guess4Column" />
-            <TableColumn text="Guess 5" fx:id="guess5Column" />
-            <TableColumn text="Correct Guess" fx:id="correctGuessColumn" />
+            <TableColumn fx:id="guess1Column" text="Guess 1" />
+            <TableColumn fx:id="guess2Column" text="Guess 2" />
+            <TableColumn fx:id="guess3Column" text="Guess 3" />
+            <TableColumn fx:id="guess4Column" text="Guess 4" />
+            <TableColumn fx:id="guess5Column" text="Guess 5" />
+            <TableColumn fx:id="correctGuessColumn" text="Correct Guess" />
         </columns>
+      <VBox.margin>
+         <Insets bottom="10.0" left="10.0" right="10.0" />
+      </VBox.margin>
     </TableView>
-    <Button fx:id="guessButton" onAction="#guessButtonClicked" text="Guess" />
-    <Button fx:id="restartButton" onAction="#restartButtonClicked" text="Restart" />
-    <Label fx:id="messageLabel" />
 </VBox>
