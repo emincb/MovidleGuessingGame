@@ -1,4 +1,41 @@
+*{
+    -fx-bg-color: #a1dcf0;
+}
+
 .root {
     -fx-font-family: "Segoe UI";
-    -fx-background-color: #8696FE;
+    -fx-background-color: -fx-bg-color;
+}
+
+#messageLabel {
+    -fx-font-weight: 600;
+}
+
+.table-view {
+    -fx-background-color: -fx-bg-color;
+}
+
+.table-view .column-header-background .filler {
+    -fx-background-color: -fx-bg-color;
+}
+
+.table-view .corner {
+    -fx-background-color: -fx-bg-color;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: -fx-bg-color;
+    -fx-background-radius: 7px 7px 0px 0px;
+    -fx-background-insets: 0 11px 0 0;
+    -fx-padding: 0 0 5px 0;
+}
+
+.table-view .column-header {
+    -fx-background-color: -fx-bg-color;
+}
+
+.table-view .table-cell {
+    -fx-background-color: -fx-bg-color;
+    -fx-border-color: -fx-bg-color;
+    -fx-padding: 2 0 2 10px;
 }

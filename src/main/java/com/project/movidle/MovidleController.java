@@ -170,7 +170,7 @@ public class MovidleController {
 
     private void showIncorrectGuess() {
         messageLabel.setText("Incorrect guess! Remaining guesses: " + remainingGuesses);
-        messageLabel.setStyle("-fx-text-fill: red;");
+        messageLabel.setStyle("-fx-text-fill: #de0e5c;");
 
         // Get the guessed items
         List<AttributeItem> attributeItems = attributesTableView.getItems();
@@ -205,9 +205,9 @@ public class MovidleController {
                         super.updateItem(value, empty);
                         setText(empty ? "" : value);
                         if (currentMovie.Includes(value)) {
-                            setStyle("-fx-background-color: green");
+                            setStyle("-fx-background-color: #3cde3c");
                         } else {
-                            setStyle("-fx-background-color: red");
+                            setStyle("-fx-background-color: #de0e5c");
                         }
                     }
                 });
