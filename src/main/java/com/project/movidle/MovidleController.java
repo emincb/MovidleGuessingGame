@@ -1,11 +1,5 @@
 package com.project.movidle;
 
-import javafx.animation.FillTransition;
-import javafx.animation.TranslateTransition;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringExpression;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,13 +7,13 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.util.Duration;
-
+import com.project.movidle.AutoCompleteTextField;
 import java.util.*;
 
 public class MovidleController {
     @FXML
     private TextField guessTextField;
+
     @FXML
     private TableView<AttributeItem> attributesTableView;
     @FXML
@@ -35,7 +29,8 @@ public class MovidleController {
 
     public void initialize() {
         CSVReader csvReader = new CSVReader();
-        movies = CSVReader.readMovies();
+        movies = csvReader.readMovies();
+
 
         startNewGame();
     }
@@ -113,6 +108,10 @@ public class MovidleController {
         AttributeItem starItem = new AttributeItem("Star");
 
         attributesTableView.getItems().addAll(titleItem, yearItem, genreItem, originItem, directorItem, starItem);
+
+        guessTextField.clear();
+
+
     }
 
 
@@ -158,7 +157,45 @@ public class MovidleController {
             item.setGuess(attributeValue, remainingGuesses);
             item.setCorrectGuess(currentMovie.getAttributeValue(attributeName));
 
+
         }
+        // Update the attribute values and highlight the guessed movie cell
+        for (AttributeItem item : attributeItems) {
+            String attributeName = item.getAttribute();
+            String attributeValue = guessedMovie.getAttributeValue(attributeName);
+
+            item.setValue(attributeValue);
+            item.setGuess(attributeValue, remainingGuesses);
+
+            int guessIndex = 5 - remainingGuesses;
+
+            TableColumn<AttributeItem, String> guessColumn = (TableColumn<AttributeItem, String>) attributesTableView.getColumns().get(guessIndex);
+            guessColumn.setCellFactory(column -> new TableCell<>() {
+                @Override
+                protected void updateItem(String value, boolean empty) {
+                    super.updateItem(value, empty);
+                    setText(empty ? "" : value);
+                    if (currentMovie.Includes(value)) {
+                        setStyle("-fx-background-color: #3cde3c");
+                    } else {
+                        setStyle("-fx-background-color: #de0e5c");
+                    }
+                }
+            });
+        }
+        //change background color of the correct guess column
+        TableColumn<AttributeItem, String> correctGuessColumn = (TableColumn<AttributeItem, String>) attributesTableView.getColumns().get(6);
+        correctGuessColumn.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String value, boolean empty) {
+                super.updateItem(value, empty);
+                setText(empty ? "" : value);
+                setStyle("-fx-background-color: #3cde3c");
+            }
+        });
+
+
+
 
         // Clear the guess text field
         guessTextField.clear();
@@ -178,6 +215,7 @@ public class MovidleController {
         // Set the guessed values and highlight the correct ones
         String guess = guessTextField.getText().trim();
 
+
         // Find the movie object that matches the guessed title
         Movie guessedMovie = null;
         for (Movie movie : movies) {
@@ -191,10 +229,10 @@ public class MovidleController {
         for (AttributeItem item : attributeItems) {
             String attributeName = item.getAttribute();
             String attributeValue = guessedMovie.getAttributeValue(attributeName);
-
-
+             Movie finalGuessedMovie = guessedMovie;
             item.setValue(attributeValue);
             item.setGuess(attributeValue, remainingGuesses);
+
 
             int guessIndex = 5 - remainingGuesses;
             if (guessIndex >= 1 && guessIndex <= 5) {
@@ -207,13 +245,15 @@ public class MovidleController {
                         if (currentMovie.Includes(value)) {
                             setStyle("-fx-background-color: #3cde3c");
                         } else {
-                            setStyle("-fx-background-color: #de0e5c");
+                            setStyle("-fx-background-color: #ff0000");
+
                         }
                     }
                 });
-
             }
+
         }
+
 
         // Clear the guess text field
         guessTextField.clear();
@@ -221,6 +261,8 @@ public class MovidleController {
         // Refresh the text fields to update their appearance
         attributesTableView.refresh();
     }
+
+
 
 
 }
