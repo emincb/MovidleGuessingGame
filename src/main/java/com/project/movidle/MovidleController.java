@@ -198,14 +198,12 @@ public class MovidleController {
 
             int guessIndex = 5 - remainingGuesses;
             if (guessIndex >= 1 && guessIndex <= 5) {
-                System.out.println(currentMovie);
                 TableColumn<AttributeItem, String> guessColumn = (TableColumn<AttributeItem, String>) attributesTableView.getColumns().get(guessIndex);
                 guessColumn.setCellFactory(column -> new TableCell<AttributeItem, String>() {
                     @Override
                     protected void updateItem(String value, boolean empty) {
                         super.updateItem(value, empty);
                         setText(empty ? "" : value);
-                        System.out.println(value);
                         if (currentMovie.Includes(value)) {
                             setStyle("-fx-background-color: green");
                         } else {
