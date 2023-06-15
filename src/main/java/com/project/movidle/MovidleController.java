@@ -15,10 +15,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class MovidleController {
     @FXML
@@ -193,55 +190,30 @@ public class MovidleController {
         // Update the attribute values and highlight the guessed movie cell
         for (AttributeItem item : attributeItems) {
             String attributeName = item.getAttribute();
-            String attributeValue = "";
+            String attributeValue = guessedMovie.getAttributeValue(attributeName);
 
-            // Check if the attribute value of the guessed movie matches the attribute value of the correct movie
-            if (guessedMovie != null) {
-                if (attributeName.equalsIgnoreCase("Title")) {
-                    attributeValue = guessedMovie.getTitle();
-                } else if (attributeName.equalsIgnoreCase("Year")) {
-                    attributeValue = guessedMovie.getYear();
-                } else if (attributeName.equalsIgnoreCase("Genre")) {
-                    attributeValue = guessedMovie.getGenre();
-                } else if (attributeName.equalsIgnoreCase("Origin")) {
-                    attributeValue = guessedMovie.getOrigin();
-                } else if (attributeName.equalsIgnoreCase("Director")) {
-                    attributeValue = guessedMovie.getDirector();
-                } else if (attributeName.equalsIgnoreCase("Star")) {
-                    attributeValue = guessedMovie.getStar();
-                }
-            }
 
             item.setValue(attributeValue);
             item.setGuess(attributeValue, remainingGuesses);
 
-            // Apply cell factory to highlight the cell of the guessed movie in green
-            TableColumn<AttributeItem, String> attributeColumn = (TableColumn<AttributeItem, String>) attributesTableView.getColumns().get(0);
-            String finalAttributeValue = attributeValue;
-            attributeColumn.setCellFactory(column -> new TableCell<AttributeItem, String>() {
-                @Override
-                protected void updateItem(String value, boolean empty) {
-                    super.updateItem(value, empty);
-                    setText(empty ? "" : value);
-
-                    if (!empty && finalAttributeValue.equalsIgnoreCase(getItem())) {
-                        setStyle("-fx-text-fill: green;");
-                    } else {
-                        setStyle("");
-                    }
-                }
-            });
-
-            int guessIndex = 6 - remainingGuesses;
+            int guessIndex = 5 - remainingGuesses;
             if (guessIndex >= 1 && guessIndex <= 5) {
+                System.out.println(currentMovie);
                 TableColumn<AttributeItem, String> guessColumn = (TableColumn<AttributeItem, String>) attributesTableView.getColumns().get(guessIndex);
                 guessColumn.setCellFactory(column -> new TableCell<AttributeItem, String>() {
                     @Override
                     protected void updateItem(String value, boolean empty) {
                         super.updateItem(value, empty);
                         setText(empty ? "" : value);
+                        System.out.println(value);
+                        if (currentMovie.Includes(value)) {
+                            setStyle("-fx-background-color: green");
+                        } else {
+                            setStyle("-fx-background-color: red");
+                        }
                     }
                 });
+
             }
         }
 

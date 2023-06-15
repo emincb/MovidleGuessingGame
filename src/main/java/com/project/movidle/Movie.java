@@ -1,5 +1,7 @@
 package com.project.movidle;
 
+import java.util.Objects;
+
 public class Movie {
     private String title;
     private String year;
@@ -71,4 +73,7 @@ public class Movie {
         }
     }
 
+    public boolean Includes(String val) {
+        return Objects.equals(val, title) || Objects.equals(val, year) || Objects.equals(val, genre) || Objects.equals(val, director) || Objects.equals(val, origin) || Objects.equals(val, star);
+    }
 }
