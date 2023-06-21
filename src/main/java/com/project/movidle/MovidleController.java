@@ -23,7 +23,7 @@ public class MovidleController {
     private Button restartButton;
     @FXML
     private Label messageLabel;
-
+    private SceneView sceneView;
     private List<Movie> movies;
     private Movie currentMovie;
     private int remainingGuesses;
@@ -31,7 +31,7 @@ public class MovidleController {
     public void initialize() {
         CSVReader csvReader = new CSVReader();
         movies = csvReader.readMovies();
-
+        sceneView = new SceneView(attributesTableView);
 
         startNewGame();
     }
@@ -140,30 +140,9 @@ public class MovidleController {
 
             int guessIndex = 5 - remainingGuesses;
 
-            TableColumn<AttributeItem, String> guessColumn = (TableColumn<AttributeItem, String>) attributesTableView.getColumns().get(guessIndex);
-            guessColumn.setCellFactory(column -> new TableCell<>() {
-                @Override
-                protected void updateItem(String value, boolean empty) {
-                    super.updateItem(value, empty);
-                    setText(empty ? "" : value);
-                    if (currentMovie.Includes(value)) {
-                        setStyle("-fx-background-color: #3cde3c");
-                    } else {
-                        setStyle("-fx-background-color: #ff0000");
-                    }
-                }
-            });
+            sceneView.GuessColumnColorHandler(guessIndex, currentMovie);
         }
-        //change background color of the correct guess column
-        TableColumn<AttributeItem, String> correctGuessColumn = (TableColumn<AttributeItem, String>) attributesTableView.getColumns().get(6);
-        correctGuessColumn.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(String value, boolean empty) {
-                super.updateItem(value, empty);
-                setText(empty ? "" : value);
-                setStyle("-fx-background-color: #3cde3c");
-            }
-        });
+        sceneView.GuessColumnColorHandler(6, currentMovie);
 
 
 

@@ -1,6 +1,7 @@
 package com.project.movidle;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -10,6 +11,7 @@ private TableView<AttributeItem> attributesTableView;
     public SceneView(TableView<AttributeItem> attributesTableView) {
     this.attributesTableView = attributesTableView;
     }
+
 
     public void GenerateTable(){
         TableColumn<AttributeItem, String> attributeColumn = new TableColumn<>("Attribute");
@@ -44,5 +46,20 @@ private TableView<AttributeItem> attributesTableView;
         AttributeItem starItem = new AttributeItem("Star");
 
         attributesTableView.getItems().addAll(titleItem, yearItem, genreItem, originItem, directorItem, starItem);
+    }
+    public void GuessColumnColorHandler(int guessIndex, Movie currentMovie){
+        TableColumn<AttributeItem, String> guessColumn = (TableColumn<AttributeItem, String>) attributesTableView.getColumns().get(guessIndex);
+        guessColumn.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String value, boolean empty) {
+                super.updateItem(value, empty);
+                setText(empty ? "" : value);
+                if (currentMovie.Includes(value)) {
+                    setStyle("-fx-background-color: #3cde3c");
+                } else {
+                    setStyle("-fx-background-color: #ff0000");
+                }
+            }
+        });
     }
 }
