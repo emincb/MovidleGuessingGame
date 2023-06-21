@@ -23,26 +23,6 @@ public class Movie {
         return title;
     }
 
-    public String getYear() {
-        return year;
-    }
-
-    public String getGenre() {
-        return genre;
-    }
-
-    public String getOrigin() {
-        return origin;
-    }
-
-    public String getDirector() {
-        return director;
-    }
-
-    public String getStar() {
-        return star;
-    }
-
     @Override
     public String toString() {
         return "Movie{" +
