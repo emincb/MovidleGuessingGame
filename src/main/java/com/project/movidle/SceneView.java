@@ -1,6 +1,6 @@
 package com.project.movidle;
 
-import javafx.fxml.FXML;
+
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;

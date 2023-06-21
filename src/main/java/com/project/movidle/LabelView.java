@@ -1,7 +1,7 @@
 package com.project.movidle;
 
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+
 
 public class LabelView {
 
@@ -16,5 +16,9 @@ public class LabelView {
         public void handleLose(Movie currentMovie){
             messageLabel.setText("You Lose! The movie was: " + currentMovie.getTitle());
             messageLabel.setStyle("-fx-text-fill: red;");
+        }
+        public void handleIncorrectGuess(int remainingGuesses){
+            messageLabel.setText("Incorrect guess! Remaining guesses: " + remainingGuesses);
+            messageLabel.setStyle("-fx-text-fill: #ff0000;");
         }
 }

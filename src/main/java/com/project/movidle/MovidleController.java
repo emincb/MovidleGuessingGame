@@ -3,11 +3,8 @@ package com.project.movidle;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import com.project.movidle.AutoCompleteTextField;
 import java.util.*;
 
 
@@ -77,7 +74,7 @@ public class MovidleController {
 
         attributesTableView.getColumns().clear();
         attributesTableView.getItems().clear();
-        SceneView sceneView = new SceneView(attributesTableView);
+
         sceneView.GenerateTable();
 
 
@@ -155,8 +152,7 @@ public class MovidleController {
 
 
     private void showIncorrectGuess() {
-        messageLabel.setText("Incorrect guess! Remaining guesses: " + remainingGuesses);
-        messageLabel.setStyle("-fx-text-fill: #ff0000;");
+        labelView.handleIncorrectGuess(remainingGuesses);
 
         // Get the guessed items
         List<AttributeItem> attributeItems = attributesTableView.getItems();
