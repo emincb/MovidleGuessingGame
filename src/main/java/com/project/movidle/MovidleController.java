@@ -24,6 +24,7 @@ public class MovidleController {
     @FXML
     private Label messageLabel;
     private SceneView sceneView;
+    private LabelView labelView;
     private List<Movie> movies;
     private Movie currentMovie;
     private int remainingGuesses;
@@ -32,7 +33,7 @@ public class MovidleController {
         CSVReader csvReader = new CSVReader();
         movies = csvReader.readMovies();
         sceneView = new SceneView(attributesTableView);
-
+        labelView = new LabelView(messageLabel);
         startNewGame();
     }
 
@@ -87,14 +88,12 @@ public class MovidleController {
 
 
     private void showWinMessage() {
-        messageLabel.setText("You Win!");
-        messageLabel.setStyle("-fx-text-fill: green;");
+        labelView.handleWin();
         guessButton.setDisable(true);
     }
 
     private void showLoseMessage() {
-        messageLabel.setText("You Lose! The movie was: " + currentMovie.getTitle());
-        messageLabel.setStyle("-fx-text-fill: red;");
+        labelView.handleLose(currentMovie);
         guessButton.setDisable(true);
 
         // Get the guessed items
@@ -179,27 +178,13 @@ public class MovidleController {
         for (AttributeItem item : attributeItems) {
             String attributeName = item.getAttribute();
             String attributeValue = guessedMovie.getAttributeValue(attributeName);
-             Movie finalGuessedMovie = guessedMovie;
             item.setValue(attributeValue);
             item.setGuess(attributeValue, remainingGuesses);
 
 
             int guessIndex = 5 - remainingGuesses;
             if (guessIndex >= 1 && guessIndex <= 5) {
-                TableColumn<AttributeItem, String> guessColumn = (TableColumn<AttributeItem, String>) attributesTableView.getColumns().get(guessIndex);
-                guessColumn.setCellFactory(column -> new TableCell<AttributeItem, String>() {
-                    @Override
-                    protected void updateItem(String value, boolean empty) {
-                        super.updateItem(value, empty);
-                        setText(empty ? "" : value);
-                        if (currentMovie.Includes(value)) {
-                            setStyle("-fx-background-color: #3cde3c");
-                        } else {
-                            setStyle("-fx-background-color: #ff0000");
-
-                        }
-                    }
-                });
+                sceneView.GuessColumnColorHandler(guessIndex, currentMovie);
             }
 
         }
