@@ -1,5 +1,6 @@
-package com.project.movidle;
+package com.project.movidle.View;
 
+import com.project.movidle.Movie;
 import javafx.scene.control.Label;
 
 

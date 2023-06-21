@@ -1,5 +1,7 @@
 package com.project.movidle;
 
+import com.project.movidle.View.LabelView;
+import com.project.movidle.View.SceneView;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

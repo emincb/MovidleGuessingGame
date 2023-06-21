@@ -1,6 +1,8 @@
-package com.project.movidle;
+package com.project.movidle.View;
 
 
+import com.project.movidle.AttributeItem;
+import com.project.movidle.Movie;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;

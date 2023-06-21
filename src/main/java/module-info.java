@@ -9,4 +9,6 @@ module com.project.movidle {
 
     opens com.project.movidle to javafx.fxml;
     exports com.project.movidle;
+    exports com.project.movidle.View;
+    opens com.project.movidle.View to javafx.fxml;
 }
