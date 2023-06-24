@@ -7,15 +7,17 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
+import java.util.List;
+
 public class SceneView {
-private TableView<AttributeItem> attributesTableView;
+    private TableView<AttributeItem> attributesTableView;
 
     public SceneView(TableView<AttributeItem> attributesTableView) {
-    this.attributesTableView = attributesTableView;
+        this.attributesTableView = attributesTableView;
     }
 
 
-    public void GenerateTable(){
+    public void GenerateTable() {
         TableColumn<AttributeItem, String> attributeColumn = new TableColumn<>("Attribute");
         attributeColumn.setCellValueFactory(cellData -> cellData.getValue().attributeProperty());
 
@@ -49,7 +51,8 @@ private TableView<AttributeItem> attributesTableView;
 
         attributesTableView.getItems().addAll(titleItem, yearItem, genreItem, originItem, directorItem, starItem);
     }
-    public void GuessColumnColorHandler(int guessIndex, Movie currentMovie){
+
+    public void GuessColumnColorHandler(int guessIndex, Movie currentMovie) {
         TableColumn<AttributeItem, String> guessColumn = (TableColumn<AttributeItem, String>) attributesTableView.getColumns().get(guessIndex);
         guessColumn.setCellFactory(column -> new TableCell<>() {
             @Override
@@ -63,5 +66,49 @@ private TableView<AttributeItem> attributesTableView;
                 }
             }
         });
+    }
+
+    public void AddMovie(Movie movie) {
+        List<AttributeItem> attributeItems = attributesTableView.getItems();
+
+        // Update the attribute values and correctness for the guessed movie
+        for (AttributeItem item : attributeItems) {
+            String attributeName = item.getAttribute();
+            String attributeValue = movie.getAttributeValue(attributeName);
+
+            item.setValue(attributeValue);
+            item.setCorrectGuess(movie.getAttributeValue(attributeName));
+
+
+        }
+    }
+
+    public void HighlightCorrectMovie() {
+        TableColumn<AttributeItem, String> guessColumn = (TableColumn<AttributeItem, String>) attributesTableView.getColumns().get(6);
+        guessColumn.setCellFactory(column -> new TableCell<>() {
+            @Override
+            protected void updateItem(String value, boolean empty) {
+                super.updateItem(value, empty);
+                setText(empty ? "" : value);
+                setStyle("-fx-background-color: #3cde3c");
+            }
+        });
+    }
+
+    public void HighlightCells(Movie guessedMovie, Movie currentMovie, int remainingGuesses) {
+        List<AttributeItem> attributeItems = attributesTableView.getItems();
+        for (AttributeItem item : attributeItems) {
+            String attributeName = item.getAttribute();
+            String attributeValue = guessedMovie.getAttributeValue(attributeName);
+            item.setValue(attributeValue);
+            item.setGuess(attributeValue, remainingGuesses);
+
+
+            int guessIndex = 5 - remainingGuesses;
+            if (guessIndex >= 1 && guessIndex <= 5) {
+                GuessColumnColorHandler(guessIndex, currentMovie);
+            }
+
+        }
     }
 }
