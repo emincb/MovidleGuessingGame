@@ -7,7 +7,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import java.util.*;
+
+import java.util.List;
+import java.util.Random;
 
 
 public class MovidleController {
@@ -19,8 +21,6 @@ public class MovidleController {
     @FXML
     private Button guessButton;
     @FXML
-    private Button restartButton;
-    @FXML
     private Label messageLabel;
     private SceneView sceneView;
     private LabelView labelView;
@@ -30,12 +30,24 @@ public class MovidleController {
 
     public void initialize() {
         CSVReader csvReader = new CSVReader();
-        movies = csvReader.readMovies();
+        movies = CSVReader.readMovies();
         sceneView = new SceneView(attributesTableView);
         labelView = new LabelView(messageLabel);
         startNewGame();
     }
+    private void startNewGame() {
+        Random random = new Random();
+        int randomIndex = random.nextInt(movies.size());
+        currentMovie = movies.get(randomIndex);
+        remainingGuesses = 5;
+        messageLabel.setText("");
 
+        attributesTableView.getColumns().clear();
+        attributesTableView.getItems().clear();
+
+        sceneView.GenerateTable();
+        guessTextField.clear();
+    }
     @FXML
     private void guessButtonClicked() {
         String guess = guessTextField.getText().trim();
@@ -61,30 +73,6 @@ public class MovidleController {
 
         guessTextField.clear();
     }
-
-    @FXML
-    private void restartButtonClicked() {
-        startNewGame();
-    }
-
-    private void startNewGame() {
-        Random random = new Random();
-        int randomIndex = random.nextInt(movies.size());
-        currentMovie = movies.get(randomIndex);
-        remainingGuesses = 5;
-        messageLabel.setText("");
-
-        attributesTableView.getColumns().clear();
-        attributesTableView.getItems().clear();
-
-        sceneView.GenerateTable();
-
-
-        guessTextField.clear();
-
-
-    }
-
 
     private void showWinMessage() {
         labelView.handleWin();
@@ -143,15 +131,12 @@ public class MovidleController {
         sceneView.GuessColumnColorHandler(6, currentMovie);
 
 
-
-
         // Clear the guess text field
         guessTextField.clear();
 
         // Refresh the table view to update the cell colors
         attributesTableView.refresh();
     }
-
 
     private void showIncorrectGuess() {
         labelView.handleIncorrectGuess(remainingGuesses);
@@ -172,30 +157,32 @@ public class MovidleController {
             }
         }
 
-        // Update the attribute values and highlight the guessed movie cell
-        for (AttributeItem item : attributeItems) {
-            String attributeName = item.getAttribute();
-            String attributeValue = guessedMovie.getAttributeValue(attributeName);
-            item.setValue(attributeValue);
-            item.setGuess(attributeValue, remainingGuesses);
+        if (guessedMovie == null) {
+            labelView.handleNullMovie(guess, remainingGuesses);
+        } else {
+            // Update the attribute values and highlight the guessed movie cell
+            for (AttributeItem item : attributeItems) {
+                String attributeName = item.getAttribute();
+                String attributeValue = guessedMovie.getAttributeValue(attributeName);
+                item.setValue(attributeValue);
+                item.setGuess(attributeValue, remainingGuesses);
 
 
-            int guessIndex = 5 - remainingGuesses;
-            if (guessIndex >= 1 && guessIndex <= 5) {
-                sceneView.GuessColumnColorHandler(guessIndex, currentMovie);
+                int guessIndex = 5 - remainingGuesses;
+                if (guessIndex >= 1 && guessIndex <= 5) {
+                    sceneView.GuessColumnColorHandler(guessIndex, currentMovie);
+                }
+
             }
-
         }
-
-
-        // Clear the guess text field
         guessTextField.clear();
-
         // Refresh the text fields to update their appearance
         attributesTableView.refresh();
     }
 
-
-
-
+    @FXML
+    private void restartButtonClicked() {
+        startNewGame();
+        guessButton.setDisable(false);
+    }
 }

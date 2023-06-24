@@ -22,4 +22,10 @@ public class LabelView {
             messageLabel.setText("Incorrect guess! Remaining guesses: " + remainingGuesses);
             messageLabel.setStyle("-fx-text-fill: #ff0000;");
         }
+
+        public void handleNullMovie(String guess,int remainingGuesses){
+            var msg = "No movie found with " + guess +" check your typo. Remaining guesses " + remainingGuesses;
+            messageLabel.setText(msg);
+            messageLabel.setStyle("-fx-text-fill: red");
+        }
 }
