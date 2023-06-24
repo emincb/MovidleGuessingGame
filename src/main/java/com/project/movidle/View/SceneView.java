@@ -2,6 +2,7 @@ package com.project.movidle.View;
 
 
 import com.project.movidle.AttributeItem;
+import com.project.movidle.Helpers.Helpers;
 import com.project.movidle.Movie;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -58,7 +59,15 @@ public class SceneView {
             @Override
             protected void updateItem(String value, boolean empty) {
                 super.updateItem(value, empty);
-                setText(empty ? "" : value);
+                if (empty) setText("");
+
+                if (!empty && Helpers.isNumber(value)) {
+                    int year = Integer.parseInt(value);
+                    int currentMovieYear = Integer.parseInt(currentMovie.getAttributeValue("Year"));
+                    setText(value + (year < currentMovieYear ? "⬆" : "⬇" ));
+                } else {
+                    setText(value);
+                }
                 if (currentMovie.Includes(value)) {
                     setStyle("-fx-background-color: #3cde3c");
                 } else {
