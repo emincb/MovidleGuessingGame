@@ -69,9 +69,9 @@ public class SceneView {
                     setText(value);
                 }
                 if (currentMovie.Includes(value)) {
-                    setStyle("-fx-background-color: #3cde3c");
+                    setStyle("-fx-background-color: #00FF7F");
                 } else {
-                    setStyle("-fx-background-color: #ff0000");
+                    setStyle("-fx-background-color: #FF6347");
                 }
             }
         });

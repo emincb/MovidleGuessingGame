@@ -1,5 +1,5 @@
 *{
-    -fx-bg-color: #a1dcf0;
+    -fx-bg-color: #1A1A1A;
 }
 
 .root {
@@ -36,6 +36,25 @@
 
 .table-view .table-cell {
     -fx-background-color: -fx-bg-color;
+    -fx-border-width: 3px;
     -fx-border-color: -fx-bg-color;
-    -fx-padding: 2 0 2 10px;
+    -fx-padding: 5px 10px;
+    -fx-alignment: CENTER;
+}
+
+.text-field {
+    -fx-background-color:  #333333;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 14px;
+}
+
+.button {
+    -fx-background-color: #444444;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-pref-width: 100px;
+}
+
+.button:hover{
+    -fx-cursor: pointer;
 }
