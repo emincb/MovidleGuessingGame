@@ -24,7 +24,7 @@ public class LabelView {
         }
 
         public void handleNullMovie(String guess,int remainingGuesses){
-            var msg = "No movie found with " + guess +" check your typo. Remaining guesses " + remainingGuesses;
+            var msg = "No movie found with '" + guess +"' check your typo. Remaining guesses " + remainingGuesses;
             messageLabel.setText(msg);
             messageLabel.setStyle("-fx-text-fill: red");
         }

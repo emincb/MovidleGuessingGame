@@ -35,6 +35,7 @@ public class MovidleController {
         labelView = new LabelView(messageLabel);
         startNewGame();
     }
+
     private void startNewGame() {
         Random random = new Random();
         int randomIndex = random.nextInt(movies.size());
@@ -48,16 +49,13 @@ public class MovidleController {
         sceneView.GenerateTable();
         guessTextField.clear();
     }
+
     @FXML
     private void guessButtonClicked() {
         String guess = guessTextField.getText().trim();
 
         if (guess.isEmpty()) {
             return;
-        }
-
-        if (currentMovie == null) {
-            startNewGame();
         }
 
         if (guess.equalsIgnoreCase(currentMovie.getTitle())) {
@@ -83,20 +81,10 @@ public class MovidleController {
         labelView.handleLose(currentMovie);
         guessButton.setDisable(true);
 
+        var guessedMovie = findGuessedMovie();
+
         // Get the guessed items
         List<AttributeItem> attributeItems = attributesTableView.getItems();
-
-        // Set the guessed values and highlight the correct ones
-        String guess = guessTextField.getText().trim();
-
-        // Find the movie object that matches the guessed title
-        Movie guessedMovie = null;
-        for (Movie movie : movies) {
-            if (guess.equalsIgnoreCase(movie.getTitle())) {
-                guessedMovie = movie;
-                break;
-            }
-        }
 
         // Update the attribute values and correctness for the guessed movie
         for (AttributeItem item : attributeItems) {
@@ -116,18 +104,7 @@ public class MovidleController {
 
 
         }
-        // Update the attribute values and highlight the guessed movie cell
-        for (AttributeItem item : attributeItems) {
-            String attributeName = item.getAttribute();
-            String attributeValue = guessedMovie.getAttributeValue(attributeName);
-
-            item.setValue(attributeValue);
-            item.setGuess(attributeValue, remainingGuesses);
-
-            int guessIndex = 5 - remainingGuesses;
-
-            sceneView.GuessColumnColorHandler(guessIndex, currentMovie);
-        }
+        highlightCells(guessedMovie);
         sceneView.GuessColumnColorHandler(6, currentMovie);
 
 
@@ -141,39 +118,11 @@ public class MovidleController {
     private void showIncorrectGuess() {
         labelView.handleIncorrectGuess(remainingGuesses);
 
-        // Get the guessed items
-        List<AttributeItem> attributeItems = attributesTableView.getItems();
-
-        // Set the guessed values and highlight the correct ones
-        String guess = guessTextField.getText().trim();
-
-
-        // Find the movie object that matches the guessed title
-        Movie guessedMovie = null;
-        for (Movie movie : movies) {
-            if (guess.equalsIgnoreCase(movie.getTitle())) {
-                guessedMovie = movie;
-                break;
-            }
-        }
-
+        var guessedMovie = findGuessedMovie();
         if (guessedMovie == null) {
-            labelView.handleNullMovie(guess, remainingGuesses);
+            labelView.handleNullMovie(guessTextField.getText().trim(), remainingGuesses);
         } else {
-            // Update the attribute values and highlight the guessed movie cell
-            for (AttributeItem item : attributeItems) {
-                String attributeName = item.getAttribute();
-                String attributeValue = guessedMovie.getAttributeValue(attributeName);
-                item.setValue(attributeValue);
-                item.setGuess(attributeValue, remainingGuesses);
-
-
-                int guessIndex = 5 - remainingGuesses;
-                if (guessIndex >= 1 && guessIndex <= 5) {
-                    sceneView.GuessColumnColorHandler(guessIndex, currentMovie);
-                }
-
-            }
+            highlightCells(guessedMovie);
         }
         guessTextField.clear();
         // Refresh the text fields to update their appearance
@@ -184,5 +133,39 @@ public class MovidleController {
     private void restartButtonClicked() {
         startNewGame();
         guessButton.setDisable(false);
+    }
+
+    private void highlightCells(Movie guessedMovie){
+        // Update the attribute values and highlight the guessed movie cell
+        List<AttributeItem> attributeItems = attributesTableView.getItems();
+        for (AttributeItem item : attributeItems) {
+            String attributeName = item.getAttribute();
+            String attributeValue = guessedMovie.getAttributeValue(attributeName);
+            item.setValue(attributeValue);
+            item.setGuess(attributeValue, remainingGuesses);
+
+
+            int guessIndex = 5 - remainingGuesses;
+            if (guessIndex >= 1 && guessIndex <= 5) {
+                sceneView.GuessColumnColorHandler(guessIndex, currentMovie);
+            }
+
+        }
+    }
+
+    private Movie findGuessedMovie() {
+        // Set the guessed values and highlight the correct ones
+        String guess = guessTextField.getText().trim();
+
+        // Find the movie object that matches the guessed title
+        Movie guessedMovie = null;
+        for (Movie movie : movies) {
+            if (guess.equalsIgnoreCase(movie.getTitle())) {
+                guessedMovie = movie;
+                break;
+            }
+        }
+
+        return guessedMovie;
     }
 }
