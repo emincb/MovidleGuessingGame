@@ -37,7 +37,6 @@ public class MovidleController {
                 var matches = ac.autocomplete(newVal);
                 if(matches.isEmpty()) return;
 
-                System.out.println(matches);
                 guessTextField.setText(matches.get(0));
             }
         });
