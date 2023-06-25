@@ -1,5 +1,6 @@
 package com.project.movidle;
 
+import com.project.movidle.Helpers.Autocomplete;
 import com.project.movidle.View.LabelView;
 import com.project.movidle.View.SceneView;
 import javafx.fxml.FXML;
@@ -29,8 +30,17 @@ public class MovidleController {
     private int remainingGuesses;
 
     public void initialize() {
-        CSVReader csvReader = new CSVReader();
         movies = CSVReader.readMovies();
+        Autocomplete ac = new Autocomplete(movies);
+        guessTextField.textProperty().addListener((observable, oldVal, newVal) -> {
+            if (newVal.length() >= 3 && oldVal.length() < newVal.length()) {
+                var matches = ac.autocomplete(newVal);
+                if(matches.isEmpty()) return;
+
+                System.out.println(matches);
+                guessTextField.setText(matches.get(0));
+            }
+        });
         sceneView = new SceneView(attributesTableView);
         labelView = new LabelView(messageLabel);
         startNewGame();
@@ -49,6 +59,7 @@ public class MovidleController {
         sceneView.GenerateTable();
         guessTextField.clear();
     }
+
     @FXML
     private void guessButtonClicked() {
         String guess = guessTextField.getText().trim();
@@ -67,10 +78,12 @@ public class MovidleController {
         guessTextField.clear();
         guessTextField.requestFocus();
     }
+
     private void showWinMessage() {
         labelView.handleWin();
         guessButton.setDisable(true);
     }
+
     private void showLoseMessage() {
         labelView.handleLose(currentMovie);
         guessButton.setDisable(true);
@@ -82,6 +95,7 @@ public class MovidleController {
         // Refresh the table view to update the cell colors
         attributesTableView.refresh();
     }
+
     private void showIncorrectGuess() {
 
         var guessedMovie = findGuessedMovie();
@@ -96,11 +110,13 @@ public class MovidleController {
         // Refresh the text fields to update their appearance
         attributesTableView.refresh();
     }
+
     @FXML
     private void restartButtonClicked() {
         startNewGame();
         guessButton.setDisable(false);
     }
+
     private Movie findGuessedMovie() {
         // Set the guessed values and highlight the correct ones
         String guess = guessTextField.getText().trim();
